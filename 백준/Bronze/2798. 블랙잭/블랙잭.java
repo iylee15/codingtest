@@ -2,30 +2,42 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
+	private static int N;
+	private static int M;
+	private static int[] cards;
+	private static int answer;
+	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
-		int cards[] = new int[N];
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		cards = new int[N];
 		boolean[] check = new boolean[N];
 		int max = Integer.MIN_VALUE;
 		st = new StringTokenizer(br.readLine());
 		for(int i = 0; i < N; i++) {
 			cards[i] = Integer.parseInt(st.nextToken());
 		}
+        
+        answer = 0;
+		dfs(0, 0, 0);
 		
-		for(int i = 0; i < N; i++) {
-			for(int j = 0; j < N; j++) {
-				if(j == i) continue;
-				for(int k = 0; k < N; k++) {
-					if(k == i || k == j) continue;
-					int num = cards[i] + cards[j] + cards[k];
-					if(max < num && num <= M) max = num;
-				}
+		System.out.println(answer);
+	}
+	
+	private static void dfs (int index, int num, int depth) {
+		// 종료 조건
+		if(depth == 3) { 
+			if(num <= M) {
+				answer = Math.max(num, answer);
 			}
+			return;
 		}
-		System.out.println(max);
+		
+        // 점화식
+		for(int i = index; i < N; i++) {
+			dfs(i + 1, num + cards[i], depth + 1);
+		}
 	}
 }
