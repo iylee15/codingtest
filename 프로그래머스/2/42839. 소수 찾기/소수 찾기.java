@@ -3,27 +3,26 @@ import java.util.stream.*;
 
 class Solution {
     public int solution(String numberChar) {
-        List<Integer> numbers = numberChar.chars()
+        Set<Integer> primes = new HashSet<>();
+		List<Integer> numbers = numberChar.chars()
 				.map(c -> c - '0')
 				.boxed()
 				.collect(Collectors.toList());
-		
-		return getPrimes(0, numbers).size();
+		getPrimes(0, numbers, primes);
+		return primes.size();
     }
     
-    private Set<Integer> getPrimes(int acc, List<Integer> numbers){
+    private void getPrimes(int acc, List<Integer> numbers, Set<Integer> primes){
 		
-		Set<Integer> primes = new HashSet<>();
 		if(isPrime(acc)) primes.add(acc);
 		
 		for(int i = 0; i < numbers.size(); i++) {
 			int nextAcc = acc * 10 + numbers.get(i);
 			List<Integer> nextNumbers = new ArrayList<>(numbers);
 			nextNumbers.remove(i);
-			primes.addAll(getPrimes(nextAcc, nextNumbers));
+			getPrimes(nextAcc, nextNumbers, primes);
 		}
 		
-		return primes;
 	}
 	
 	private boolean isPrime(int n) {
