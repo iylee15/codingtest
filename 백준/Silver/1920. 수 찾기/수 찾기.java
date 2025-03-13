@@ -6,10 +6,11 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
-		int numbers[] = new int[N];
+		Map<Integer, Integer> map = new HashMap<>();
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i = 0; i < N; i++) {
-			numbers[i] = Integer.parseInt(st.nextToken()); 
+			int number = Integer.parseInt(st.nextToken());
+			map.put(number, number);
 		}
 		
 		int M = Integer.parseInt(br.readLine());
@@ -19,17 +20,15 @@ public class Main {
 			findNumbers[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		Arrays.sort(numbers);
 		
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < M; i++) {
-			int answer = Arrays.binarySearch(numbers, findNumbers[i]);
-			if(answer < 0) answer = 0;
-			else if(answer >= 0) answer = 1;
-			sb.append(answer).append("\n");
+			if(map.containsKey(findNumbers[i])) {
+				sb.append(1).append("\n");
+			} else {
+				sb.append(0).append("\n");
+			}
 		}
-		
 		System.out.println(sb.toString());
-		
 	}
 }
