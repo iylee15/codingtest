@@ -21,8 +21,7 @@ public class Main {
 			count++;
 			
             if(number > 0) {
-				if(number <= C) count++;
-				else count += Math.ceil((double)number/C);
+				count += (number + C - 1) / C;
 			}
 		}
 		System.out.println(count);
