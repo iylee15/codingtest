@@ -7,39 +7,38 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int M = Integer.parseInt(br.readLine());
 		StringTokenizer st;
-		Set<Integer> set = new HashSet<Integer>();
-        StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
+		int S = 0;
 		
 		for(int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
-			switch(st.nextToken()) {
+			String cmd = st.nextToken();
+			int x;
+			switch(cmd) {
 			case "add" :
-				set.add(Integer.parseInt(st.nextToken()));
+				x = Integer.parseInt(st.nextToken());
+				S |= (1 << x);
 				break;
 			case "remove" :
-				set.remove(Integer.parseInt(st.nextToken()));
+				x = Integer.parseInt(st.nextToken());
+				S &= ~(1 << x);
 				break;
 			case "check" :
-				if(set.contains(Integer.parseInt(st.nextToken())))
-					sb.append("1\n");
-				else sb.append("0\n");
+				x = Integer.parseInt(st.nextToken());
+				sb.append((S & (1 << x)) != 0 ? 1 : 0).append("\n");
 				break;
 			case "toggle" :
-				int token = Integer.parseInt(st.nextToken());
-				if(set.contains(token)) set.remove(token);
-				else set.add(token);
+				x = Integer.parseInt(st.nextToken());
+				S ^= (1 << x);
 				break;
 			case "all" : 
-				set.clear();
-				for(int j = 1; j <=20; j++) {
-					set.add(j);
-				}
+				S = (1 << 21) - 1;
 				break;
 			case "empty" :
-				set.clear();
+				S = 0;
 				break;
 			}
 		}
-        System.out.println(sb.toString());
+		System.out.println(sb.toString());
 	}
 }
